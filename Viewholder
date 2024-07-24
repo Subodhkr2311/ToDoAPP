@@ -1,0 +1,31 @@
+package com.example.todoapp;
+
+import android.view.View;
+import android.widget.CheckBox;
+import android.widget.TextView;
+
+import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.text.BreakIterator;
+
+
+public class TaskViewHolder extends RecyclerView.ViewHolder {
+
+
+    TextView taskDescription;
+    TextView taskDueDate;
+    CheckBox taskCompletionStatus;
+    ConstraintLayout card;
+    CardView cardView;
+
+    public TaskViewHolder(View itemView) {
+        super(itemView);
+        taskDescription = itemView.findViewById(R.id.taskdisplay);
+        taskDueDate = itemView.findViewById(R.id.taskDueDateEditText);
+        taskCompletionStatus = itemView.findViewById(R.id.checkbox);
+        card=itemView.findViewById(R.id.consCard);
+        cardView=itemView.findViewById(R.id.card);
+    }
+}
