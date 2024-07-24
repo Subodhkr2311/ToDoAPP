@@ -1,0 +1,88 @@
+package com.example.todoapp;
+
+
+import android.app.Dialog;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+
+import androidx.appcompat.widget.Toolbar;
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import java.util.ArrayList;
+
+
+public class MainActivity3 extends AppCompatActivity {
+    public RecyclerView taskListView;
+    FloatingActionButton addTaskButton;
+    ArrayList<xyz> tasks = new ArrayList<>();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge .enable(this);
+        setContentView(R.layout.activity_main3);
+
+        taskListView = findViewById(R.id.recyclerView);
+        addTaskButton = findViewById(R.id.addbutto);
+
+        taskListView.setLayoutManager(new LinearLayoutManager(this));
+
+        adapterRecycle adapt = new adapterRecycle(this, tasks);
+        taskListView.setAdapter(adapt);
+        addTaskButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Dialog dialog = new Dialog(MainActivity3.this);
+                dialog.setContentView(R.layout.addtodo);
+                EditText e1= dialog.findViewById(R.id.edAddtask);
+                EditText e2= dialog.findViewById(R.id.taskDueDateEditText);
+                Button b1= dialog.findViewById(R.id.materialButton);
+                Button b2=dialog.findViewById(R.id.materialButton2);
+                b2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                b1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String td, tdd;
+                             td= e1.getText().toString();
+                            tdd= e2.getText().toString();
+                            if(td.isEmpty() && tdd.isEmpty()){
+                                Toast.makeText(MainActivity3.this, "Add task and due date", Toast.LENGTH_SHORT).show();
+                            }else {
+                                tasks.add(new xyz(td, tdd, false));
+                                adapt.notifyItemChanged(tasks.size()-1);
+                                taskListView.scrollToPosition(tasks.size()-1);
+                                dialog.dismiss();
+                            }
+                    }
+                });
+                dialog.show();
+            }
+        });
+    }
+
+
+}
+class xyz {
+  public   String taskD;
+  public String taskDueD;
+    public boolean taskCompletion;
+public xyz(String taskDescription, String taskDueDate, boolean taskCompletionStatus) {
+    this.taskD = taskDescription;
+    this.taskDueD = taskDueDate;
+    this.taskCompletion = taskCompletionStatus;
+}
+}
+
